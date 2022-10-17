@@ -56,6 +56,7 @@
 <script>
 import { mapActions } from "vuex";
 export default {
+  // middleware: ['guest'], // redireciona para a tela home caso esteja logado
   data() {
     return {
       form: {

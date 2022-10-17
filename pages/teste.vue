@@ -6,10 +6,10 @@
 
 <script>
 export default {
-  auth: false, // deixa a autenticação global false, ou seja, pode ser acessada msm sem estar logado
+  // auth: false, // deixa a autenticação global false, ou seja, pode ser acessada msm sem estar logado
   mounted() {
     this.$axios
-      .$get("category/all")
+      .$get("laravel/api/category/all")
       .then((r) => {
         console.log(r)
       })

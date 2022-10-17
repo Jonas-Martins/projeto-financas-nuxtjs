@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   server: {
     host: '0',
-    port: '8080'
+    port: '8081'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -16,7 +16,7 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -51,23 +51,20 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://192.168.1.106:9000/api',
-    // proxy: true,
-    credentials: true
+    proxy: true,
+    credentials: true,
   },
-
-  // proxy: {
-  //   '/laravel': {
-  //     target: 'http://192.168.1.106:8080',
-  //     pathRewrite: { '^/laravel': '/' }
-  //   }
-  // },
-
+  proxy: {
+    '/laravel': {
+       target: process.env.API_URL,
+       pathRewrite: { '^/laravel': '/' }
+     }
+  },
   auth: {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://192.168.1.106:9000',
+        url: `${process.env.MY_DOMAIN_URL}/laravel`,
         endpoints: {
           login: {
             url: '/api/user/login' // metodo de login vindo a api
@@ -76,16 +73,16 @@ export default {
             url: '/api/user/logout' // metodo de logout vindo a api
           },
           user:{
-            url: '/api/user/auth', // metodo que pega as informações do user vindo a api
+            url: '/api/user/auth', // metodo que pega as informaÃ§Ãµes do user vindo a api
             method: 'GET'
           }
         },
       }
     },
     redirect:{
-      login: '/login', // caso n esteja logado será redirecionado para essa pagina
-      logout: '/login', // página que o user é redirecionado quando desloga
-      home: '/' // pagina que o cliente é redirecionando quando faz o login com sucesso
+      login: '/login', // caso n esteja logado serÃ¡ redirecionado para essa pagina
+      logout: '/login', // pÃ¡gina que o user Ã© redirecionado quando desloga
+      home: '/' // pagina que o cliente Ã© redirecionando quando faz o login com sucesso
     }
   },
 
