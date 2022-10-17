@@ -1,12 +1,16 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  server: {
+    host: '0',
+    port: '8080'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - projeto-financas',
     title: 'projeto-financas',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'pt-BR'
     },
     meta: [
       { charset: 'utf-8' },
@@ -34,25 +38,66 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    'cookie-universal-nuxt',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'http://192.168.1.106:9000/api',
+    // proxy: true,
+    credentials: true
+  },
+
+  // proxy: {
+  //   '/laravel': {
+  //     target: 'http://192.168.1.106:8080',
+  //     pathRewrite: { '^/laravel': '/' }
+  //   }
+  // },
+
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: 'http://192.168.1.106:9000',
+        endpoints: {
+          login: {
+            url: '/api/user/login' // metodo de login vindo a api
+          },
+          logout:{
+            url: '/api/user/logout' // metodo de logout vindo a api
+          },
+          user:{
+            url: '/api/user/auth', // metodo que pega as informações do user vindo a api
+            method: 'GET'
+          }
+        },
+      }
+    },
+    redirect:{
+      login: '/login', // caso n esteja logado será redirecionado para essa pagina
+      logout: '/login', // página que o user é redirecionado quando desloga
+      home: '/' // pagina que o cliente é redirecionando quando faz o login com sucesso
+    }
+  },
+
+  router: {
+    middleware: ['auth']
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
