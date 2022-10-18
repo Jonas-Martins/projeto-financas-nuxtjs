@@ -67,10 +67,10 @@ export default {
         url: `${process.env.MY_DOMAIN_URL}/laravel`,
         endpoints: {
           login: {
-            url: '/api/user/login' // metodo de login vindo a api
+            url: '/login' // metodo de login vindo a api
           },
           logout:{
-            url: '/api/user/logout' // metodo de logout vindo a api
+            url: '/logout' // metodo de logout vindo a api
           },
           user:{
             url: '/api/user/auth', // metodo que pega as informaÃ§Ãµes do user vindo a api
